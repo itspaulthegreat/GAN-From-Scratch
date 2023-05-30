@@ -13,12 +13,12 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 print("device",device)
 lr = 3e-4
 z_dim = 64
-image_dim = 28 * 28
+image_dim = 28 * 28 * 1
 batch_size = 32
 num_epochs = 50
 
 disc = m.Discriminator(image_dim).to(device)
-gen = m.Discriminator(z_dim,image_dim).to(device)
+gen = m.Generator(z_dim,image_dim).to(device)
 
 fixed_noise = torch.randn((batch_size,z_dim)).to(device)
 
@@ -51,7 +51,7 @@ for epoch in range(num_epochs):
 
         loss_disc = (loss_disc_real + loss_disc_fake)/2
         disc.zero_grad()
-        loss_disc.backward(retain_grah = True)
+        loss_disc.backward(retain_graph = True)
         opt_disc.step()
 
 

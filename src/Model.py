@@ -4,12 +4,14 @@ import torch.optim as optim
 import torchvision
 
 class Discriminator(nn.Module):
-    def _init_(self,img_dim):
-        super()._init_()
+    def __init__(self,img_dim):
+        super().__init__()
         self.disc = nn.Sequential(
             nn.Linear(img_dim,128),
             nn.LeakyReLU(0.1),
-            nn.Linear(128,1),
+            nn.Linear(128,64),
+            nn.LeakyReLU(0.1),
+            nn.Linear(64,1),
             nn.Sigmoid() 
         )
 
@@ -18,10 +20,12 @@ class Discriminator(nn.Module):
 
 
 class Generator(nn.Module):
-    def _init_(self,z_dim,img_dim):
-        super()._init_()
+    def __init__(self,z_dim,img_dim):
+        super().__init__()
         self.gen = nn.Sequential(
-            nn.Linear(z_dim,256),
+            nn.Linear(z_dim,128),
+            nn.LeakyReLU(0.1),
+            nn.Linear(128,256),
             nn.LeakyReLU(0.1),
             nn.Linear(256,img_dim),
             nn.Tanh() 
